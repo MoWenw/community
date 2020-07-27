@@ -41,7 +41,7 @@ public class AuthorizeController {
         GithubUser user = githubProvider.getUser(accessToken);
         if (user!=null){
             //登录成功写cookie和session
-            //把user对象放到session里面（账户创建成功）
+            //把user对象放到session里面（账户创建成功）,通过写入session方式，记录当前登录态
             request.getSession().setAttribute("user",user);
             //跳转到index页面，不写跳转，当前地址不变，只是把页面渲染成index
             return "redirect:/";
