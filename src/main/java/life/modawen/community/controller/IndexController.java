@@ -18,7 +18,7 @@ public class IndexController {
     //访问首页
     @GetMapping("/")
     public String index(HttpServletRequest request){
-        //循环看所有的cookie
+        //循环所有的cookie
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie: cookies){
             //找到cookie=token的cookie
