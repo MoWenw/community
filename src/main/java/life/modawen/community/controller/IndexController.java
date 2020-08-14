@@ -20,18 +20,20 @@ public class IndexController {
     public String index(HttpServletRequest request){
         //循环看所有的cookie
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie: cookies){
-            //找到cookie=token的cookie
-            if(cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                //数据库里查是不是有这条cookie记录
-                User user = userMapper.findByToken(token);
-                //验证前端的情况
-                if(user !=null){
-                    //如果有，cookie放到session里面
-                    request.getSession().setAttribute("user",user);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                //找到cookie=token的cookie
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                    //数据库里查是不是有这条cookie记录
+                    User user = userMapper.findByToken(token);
+                    //验证前端的情况
+                    if (user != null) {
+                        //如果有，cookie放到session里面
+                        request.getSession().setAttribute("user", user);
+                    }
+                    break;
                 }
-                break;
             }
         }
         return "index"; }
