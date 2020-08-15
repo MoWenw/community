@@ -46,7 +46,7 @@ public class AuthorizeController {
         //拿到string
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if (githubUser!=null){
+        if (githubUser!=null && githubUser.getId() != null){
             //获取用户信息
             User user = new User();
             //生成token，放到user对象里面
@@ -56,6 +56,7 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             //插入到数据库中
             userMapper.insert(user);
             //把token放到cookie里面

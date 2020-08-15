@@ -1,13 +1,19 @@
 package life.modawen.community.controller;
 
+import life.modawen.community.dto.QuestionDTO;
+import life.modawen.community.mapper.QuestionMapper;
 import life.modawen.community.mapper.UserMapper;
+import life.modawen.community.model.Question;
 import life.modawen.community.model.User;
+import life.modawen.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -15,12 +21,16 @@ public class IndexController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionService questionService;
+
     //访问首页
     @GetMapping("/")
-    public String index(HttpServletRequest request) {
+    public String index(HttpServletRequest request,
+                        Model model) {
         //循环所有的cookie
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        if (cookies != null && cookies.length !=0) {
             for (Cookie cookie : cookies) {
                 //找到cookie=token的cookie
                 if (cookie.getName().equals("token")) {
@@ -36,6 +46,9 @@ public class IndexController {
                 }
             }
         }
+
+        List<QuestionDTO> questionList = questionService.list();
+        model.addAttribute("questions",questionList);
         return "index";
     }
 }
