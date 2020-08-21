@@ -23,4 +23,7 @@ CREATE CACHED TABLE "PUBLIC"."USER"(
 )
 ```
 
+mvn flyway:migrate
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
 
