@@ -4,6 +4,7 @@ import life.modawen.community.dto.PaginationDTO;
 import life.modawen.community.dto.QuestionDTO;
 import life.modawen.community.exception.CustomizeErrorCode;
 import life.modawen.community.exception.CustomizeException;
+import life.modawen.community.mapper.QuestionExtMapper;
 import life.modawen.community.mapper.QuestionMapper;
 import life.modawen.community.mapper.UserMapper;
 import life.modawen.community.model.Question;
@@ -22,6 +23,9 @@ public class QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -107,7 +111,7 @@ public class QuestionService {
     public QuestionDTO getById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question == null){
-            throw new CustomizeException("你找的问题不在了，要不要换个试试？");
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);
@@ -140,5 +144,12 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
             }
         }
+    }
+
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
