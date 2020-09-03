@@ -1,7 +1,9 @@
 package life.modawen.community.controller;
 
 import life.modawen.community.dto.CommentCreateDTO;
+import life.modawen.community.dto.CommentDTO;
 import life.modawen.community.dto.ResultDTO;
+import life.modawen.community.enums.CommentTypeEnum;
 import life.modawen.community.exception.CustomizeErrorCode;
 import life.modawen.community.model.Comment;
 import life.modawen.community.model.User;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -42,5 +45,12 @@ public class CommentController {
         comment.setLikeCount(0L);
         commentService.insert(comment);
         return ResultDTO.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id){
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
     }
 }

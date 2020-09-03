@@ -2,6 +2,7 @@ package life.modawen.community.controller;
 
 import life.modawen.community.dto.CommentDTO;
 import life.modawen.community.dto.QuestionDTO;
+import life.modawen.community.enums.CommentTypeEnum;
 import life.modawen.community.service.CommentService;
 import life.modawen.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class QuestionController {
     public String question(@PathVariable(name = "id") Long id, Model model){
         QuestionDTO questionDTO = questionService.getById(id);
 
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         //累加阅读数
         questionService.incView(id);
