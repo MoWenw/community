@@ -10,6 +10,7 @@
 [Git](https://git-scm.com/download)
 [VP](https://www.visual-paradigm.com)
 [Lombok](https://www.projectlombok.org)
+[Markdown插件](http://editor.md.ipandao.com)
 
 ## 脚本
 ```sql
